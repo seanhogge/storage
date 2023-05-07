@@ -1,0 +1,26 @@
+tr.border-t-2.dark:bg-gray-600.dark:border-gray-500.dark:hover:bg-gray-500
+  td#dangerous
+<%- attributes.reject(&:password_digest?).each do |attribute| -%>
+<%- case attribute.type -%>
+<%- when :primary_key -%>
+  td.text-right class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=<%= singular_table_name %>_path(<%= singular_table_name %>)
+    = <%= singular_table_name %>.<%= attribute.name %>
+<%- when :string -%>
+  td.whitespace-nowrap class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=<%= singular_table_name %>_path(<%= singular_table_name %>)
+    = <%= singular_table_name %>.<%= attribute.name %>
+<%- when :boolean -%>
+  td.text-center class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=<%= singular_table_name %>_path(<%= singular_table_name %>)
+    = <%= singular_table_name %>.<%= attribute.name %>? ? fa_icon(:check) : fa_icon(:times)
+<%- when :datetime, :timestamp -%>
+  td.hidden.xl:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=<%= singular_table_name %>_path(<%= singular_table_name %>)
+    = <%= singular_table_name %>.<%= attribute.name %> ? <%= singular_table_name %>.<%= attribute.name %>&.to_fs(:short) : fa_icon(:times)
+<%- when :integer -%>
+  td.hidden.xl:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=<%= singular_table_name %>_path(<%= singular_table_name %>)
+    = <%= singular_table_name %>.<%= attribute.name %> ? <%= singular_table_name %>.<%= attribute.name %>&.to_fs(:short) : fa_icon(:times)
+<%- else -%>
+  td class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=<%= singular_table_name %>_path(<%= singular_table_name %>)
+    = <%= singular_table_name %>.<%= attribute.name %>
+<%- end -%>
+<%- end -%>
+  td#controls
+    = turbo_frame_tag dom_id(<%= singular_table_name %>, :controls), src: <%= singular_table_name %>_path(<%= singular_table_name %>)

@@ -1,0 +1,6 @@
+.flex.flex-wrap.my-4.lg:px-4
+  .w-full.lg:p-4
+    .p-4.bg-white.border.border-gray-200.rounded-lg.lg:p-10.dark:bg-gray-700.dark:border-gray-500
+      h1.h3.mb-4
+        = t('.title', resource: resource.model_name.human)
+      = render "form", user: resource

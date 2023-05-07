@@ -1,0 +1,28 @@
+div data-controller="modal"
+  .hidden.animated.fadeIn.fixed.inset-0.overflow-y-auto.flex.items-center.justify-center data-modal-target="container" data-action="click->modal#closeBackground keyup@window->modal#closeWithKeyboard turbo:submit-end->modal#close" style="z-index: 9999;"
+    .max-w-sm.max-h-screen.w-full.relative
+      .m-1.bg-white.rounded.shadow.dark:bg-gray-800
+        div class="flex justify-end items-center flex-wrap mt-2 float-right"
+          button class="btn" data-action="click->modal#close"
+            = fa_icon :times
+        .p-8
+          h2 class="text-xl mb-4" Dev Data
+          p.dark:text-white
+            .grid.grid-cols-2
+              div IP
+              div = request.remote_addr
+
+              div
+              div
+
+  .w-full.h-auto.px-2.py-4.text-sm.lg:px-6.dark:bg-gray-700.sticky.bottom-0
+    .flex.flex-col-reverse.p-4.text-sm.lg:flex-row.lg:justify-between.lg:p-0
+      .flex.items-center.justify-center
+        = link_to root_path, class: "hidden sm:inline-block text-inherit dark:text-gray-400" do
+          = fa_icon "gem 2x"
+        .ml-4.text-gray-700.dark:text-gray-400
+          | © #{Date.current.year} reponame
+      - if Rails.env.development?
+        .flex.flex-wrap.justify-center.dark:text-gray-400
+          button class="btn p-0 h-6" data-action="click->modal#open"
+            | #{params[:controller]}##{params[:action]}

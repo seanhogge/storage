@@ -1,0 +1,40 @@
+= form_with(model: <%= model_resource_name %>) do |f|
+  = render "form_errors", resource: f.object
+
+<%- attributes.each do |attribute| -%>
+  .form-group
+<%- if attribute.password_digest? -%>
+    = f.label :password
+    = f.password_field :password, class: "form-control"
+
+  .form-group
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation, class: "form-control"
+<%- elsif attribute.attachments? -%>
+    = f.label :<%= attribute.column_name %>
+    = f.<%= attribute.field_type %> :<%= attribute.column_name %>, multiple: true, class: "form-control"
+<%- elsif attribute.rich_text? -%>
+    = f.label :<%= attribute.column_name %>
+    = f.<%= attribute.field_type %> :<%= attribute.column_name %>, data: { controller: "mentions", mentions_target: "field" }
+<%- elsif attribute.field_type == :date_select -%>
+    = f.label :<%= attribute.column_name %>
+    = f.text_field :<%= attribute.column_name %>, class: "form-control", data: { controller: :flatpickr, flatpickr_alt_input: true, flatpickr_alt_format: t("date.formats.long") }
+<%- elsif attribute.field_type == :datetime_select -%>
+    = f.label :<%= attribute.column_name %>
+    = f.text_field :<%= attribute.column_name %>, class: "form-control", data: { controller: :flatpickr, flatpickr_enable_time: true, flatpickr_alt_input: true, flatpickr_alt_format: t("time.formats.long") }
+<%- elsif attribute.field_type == :check_box -%>
+    = f.label :<%= attribute.column_name %>
+    = f.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "form-checkbox"
+<%- else -%>
+    = f.label :<%= attribute.column_name %>
+    = f.<%= attribute.field_type %> :<%= attribute.column_name %>, class: "form-control"
+<%- end -%>
+
+<%- end -%>
+  div
+    = f.submit "Submit", class: "btn btn-primary"
+
+    - if f.object.new_record?
+      = link_to "Cancel", <%= index_helper(type: :path) %>, class: "btn btn-white dark:btn-tertiary"
+    - else
+      = link_to "Cancel", <%= show_helper(type: :path) %>, class: "btn btn-white dark:btn-tertiary"

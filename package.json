@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@rails/actiontext": "^7.0.4",
+    "tailwindcss-stimulus-components": "^3.0.4",
+    "trix": "^2.0.0"
+  }
+}

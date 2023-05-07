@@ -1,0 +1,10 @@
+div class="#{notification.read? ? 'opacity-50' : ''}" id=dom_id(notification, :index)
+  .p-2.bg-white.border.border-gray-200.rounded-lg.shadow-sm.lg:p-5.lg:w-full.mx-auto.my-8.p-6.border.rounded.dark:bg-gray-600.dark:border-gray-500
+    - instance = notification.to_notification
+    div = notification.created_at.to_fs(:medium)
+    - if instance.url.present?
+      .h4 = link_to instance.message, instance.url
+    - else
+      .h4 = instance.message
+    - if notification.read?
+      .text-small.text-muted Seen #{notification.read_at.to_fs(:medium)}

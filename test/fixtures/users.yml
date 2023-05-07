@@ -1,0 +1,59 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the "{}" from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+sean:
+  email: sean@seanhogge.com
+  first_name: Sean
+  last_name: Hogge
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'asdfasdf') %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>
+  roles:
+    admin: true
+
+henry:
+  email: henry@seanhogge.com
+  first_name: Henry
+  last_name: Cavill
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'asdfasdf') %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>
+  supervisor: sean
+  roles:
+    manager: true
+
+andrew:
+  email: andrew@seanhogge.com
+  first_name: Andrew
+  last_name: Scott
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'asdfasdf') %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>
+  supervisor: sean
+  roles:
+    manager: true
+
+josh:
+  email: josh@seanhogge.com
+  first_name: Josh
+  last_name: Ritter
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'asdfasdf') %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>
+  supervisor: henry
+  roles:
+    employee: true
+
+edward:
+  email: edward@seanhogge.com
+  first_name: Edward
+  last_name: Norton
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'asdfasdf') %>
+  time_zone: "Central Time (US & Canada)"
+  confirmed_at: <%= Time.current %>
+  supervisor: andrew
+  roles:
+    employee: true

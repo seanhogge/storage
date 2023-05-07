@@ -1,0 +1,87 @@
+<% if namespaced? -%>
+require_dependency "<%= namespaced_path %>/application_controller"
+
+<% end -%>
+<% module_namespacing do -%>
+class <%= controller_class_name %>Controller < ApplicationController
+  before_action :set_<%= singular_table_name %>, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized, except: :index
+  after_action :verify_policy_scoped, only: :index
+
+  # GET <%= route_url %>
+  def index
+    if params[:search]
+      @<%= plural_table_name %> = policy_scope(<%= class_name %>).where("name ILIKE ?", "%#{params[:search]}%").order(:id)
+    else
+      @<%= plural_table_name %> = policy_scope(<%= class_name %>).all.order(:id)
+    end
+
+    @pagy, @<%= plural_table_name %> = pagy(@<%= plural_table_name %>.sort_by_params(params[:sort], sort_direction), items: 50)
+  end
+
+  # GET <%= route_url %>/1
+  def show
+  end
+
+  # GET <%= route_url %>/new
+  def new
+    @<%= singular_table_name %> = <%= orm_class.build(class_name) %>
+
+    authorize @<%= singular_table_name %>
+  end
+
+  # GET <%= route_url %>/1/edit
+  def edit
+  end
+
+  # POST <%= route_url %>
+  def create
+    @<%= singular_table_name %> = <%= orm_class.build(class_name, "permitted_attributes(#{class_name})") %>
+
+    authorize @<%= singular_table_name %>
+
+    respond_to do |format|
+      if @<%= orm_instance.save %>
+        format.html { redirect_to :<%= plural_table_name %>, notice: <%= %("#{human_name} was successfully created.") %> }
+        format.json { render :show, status: :created, location: <%= "@#{singular_table_name}" %> }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: <%= "@#{orm_instance.errors}" %>, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT <%= route_url %>/1
+  def update
+    respond_to do |format|
+      if @<%= orm_instance.update("permitted_attributes(@#{singular_table_name})") %>
+        format.html { redirect_to :<%= plural_table_name %>, notice: <%= %("#{human_name} was successfully updated.") %> }
+        format.json { render :show, status: :ok, location: <%= "@#{singular_table_name}" %> }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: <%= "@#{orm_instance.errors}" %>, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE <%= route_url %>/1
+  def destroy
+    @<%= orm_instance.destroy %>
+    respond_to do |format|
+      format.html { redirect_to :<%= plural_table_name %>, notice: <%= %("#{human_name} was successfully destroyed.") %> }
+      format.json { head :no_content }
+    end
+  end
+
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_<%= singular_table_name %>
+    @<%= singular_table_name %> = <%= orm_class.find(class_name, "params[:id]") %>
+
+    authorize @<%= singular_table_name %>
+  rescue ActiveRecord::RecordNotFound
+    redirect_to <%= index_helper type: :path %>, notice: "Not found"
+  end
+end
+<% end -%>

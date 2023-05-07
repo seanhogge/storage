@@ -1,0 +1,20 @@
+/* Light Jumpstart theme for Pagy's default renderer */
+
+.pagy-nav.pagination {
+  @apply inline-flex flex-wrap items-center justify-start;
+}
+
+.pagy-nav.pagination .page {
+  @apply btn bg-white;
+  @apply dark:bg-gray-700;
+}
+
+.pagy-nav.pagination .page.prev {
+}
+
+.pagy-nav.pagination .disabled {
+  @apply opacity-50;
+}
+
+.pagy-nav.pagination .active {
+}

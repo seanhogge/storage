@@ -1,0 +1,12 @@
+= content_for :title, "New <%= singular_table_name.titleize %>"
+
+.container.px-4.mx-auto.my-8
+  .flex.items-center.justify-between.mb-4
+    h1.h3
+      = link_to "<%= plural_table_name.titleize %>", <%= index_helper %>_path, class: "text-black dark:text-white"
+      span.text-gray-400.font-light.px-2
+        = fa_icon 'angle-right'
+      = "New <%= singular_table_name.titleize %>"
+
+  .p-8.bg-white.rounded.shadow.dark:bg-gray-600
+    = render "form", <%= singular_table_name %>: @<%= singular_table_name %>

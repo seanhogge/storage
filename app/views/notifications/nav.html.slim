@@ -1,0 +1,15 @@
+= turbo_frame_tag :notifications_menu_list do
+  - @notifications.limit(5).each do |notification|
+    div id=dom_id(notification)
+      - instance = notification.to_notification
+      - if instance.url.present?
+        = link_to instance.message, instance.url, class: "notification-link #{notification.status}"
+      - else
+        .py-3.px-6 = instance.message
+  - if @notifications.any?
+    = link_to "See all notifications", notifications_path, class: "notification-link", data: { turbo_frame: :_top }
+  .hidden.p-4.text-center.only:block
+    .mb-2
+      | Notifications
+    .text-gray-600
+      | No notification to display

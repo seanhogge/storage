@@ -1,0 +1,24 @@
+css:
+  .ts-control input {
+    font-size: 1rem;
+  }
+= form_with model: user do |f|
+  .w-full.lg:pl-16.lg:w-1/2
+    .flex.items-center.gap-4.mb-4
+      = image_tag avatar_url_for(@user), class: "rounded-full"
+      div
+        = f.file_field :avatar, accept: "image/*", class: "file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-gray-50 file:text-gray-700 hover:file:bg-gray-100"
+
+  .form-group
+    = f.label :name, "Full Name"
+    = f.text_field :name, class: "form-control", required: true
+
+  .form-group
+    = f.label :time_zone
+      = f.time_zone_select :time_zone,
+        nil,
+        { class: "select", default: browser_time_zone.name },
+        { required: true, data: { controller: "select" } }
+
+  = f.submit "Save", class: "btn btn-primary"
+

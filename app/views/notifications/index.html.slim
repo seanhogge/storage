@@ -1,0 +1,7 @@
+= turbo_stream_from :notifications
+.container.mx-auto.my-8.p-6
+  - if @pagy.pages > 1
+    div.text-center.hidden.md:block == pagy_nav(@pagy)
+  #notifications = render @notifications
+  - if @pagy.pages > 1
+    div.text-center.hidden.md:block == pagy_nav(@pagy)

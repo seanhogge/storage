@@ -1,0 +1,75 @@
+<% module_namespacing do -%>
+class <%= class_name %>Policy < ApplicationPolicy
+  # https://github.com/varvet/pundit
+  # See ApplicationPolicy for defaults
+
+  def index?
+    user
+  end
+
+  def show?
+    user
+  end
+
+  def new?
+    user
+  end
+
+  def create?
+    user
+  end
+
+  def edit?
+    user == record.user || user.admin?
+  end
+
+  def update?
+    user == record.user || user.admin?
+  end
+
+  def destroy?
+    user == record.user || user.admin?
+  end
+
+  # https://github.com/varvet/pundit#strong-parameters
+  def permitted_attributes_for_create
+    [
+<%- @name.classify.safe_constantize.new.attributes.each do |k,_| -%>
+<%- unless %w[id created_at updated_at].include? k -%>
+      :<%= k.to_sym %>,
+<%- end -%>
+<%- end -%>
+    ]
+  end
+
+  def permitted_attributes
+    if user == record.user || user.admin?
+      [
+<%- @name.classify.safe_constantize.new.attributes.each do |k,_| -%>
+<%- unless %w[id created_at updated_at].include? k -%>
+        :<%= k.to_sym %>,
+<%- end -%>
+<%- end -%>
+      ]
+    else
+      [
+<%- @name.classify.safe_constantize.new.attributes.each do |k,_| -%>
+<%- unless %w[id created_at updated_at].include? k -%>
+        :<%= k.to_sym %>,
+<%- end -%>
+<%- end -%>
+      ]
+    end
+  end
+
+  class Scope < Scope
+    def resolve
+      if user.admin?
+        scope.all
+      else
+        scope.where(user: user)
+      end
+    end
+  end
+end
+<% end -%>

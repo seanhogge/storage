@@ -1,0 +1,29 @@
+.container.mx-auto.md:p-4.gap-4
+  - if @old_users.any?
+    = render(ButtonLinkComponent.new(href: user_import_all_path, method: :get, classes: "btn-primary btn-block", data: { confirm: "This will import all users with the default best match, which may not always be correct. Continue?" }).with_content("Import All"))
+  .flex.flex-wrap
+    - @old_users.each do |user|
+      - department = Department.find_by_name(user.department) || Department.first
+      - office = Office.find_by(old_id: user.office) || Office.first
+      - case user.role
+        - when 2
+          - user_role = :manager
+        - when 3
+          - user_role = :admin
+        - else
+          - user_role = :employee
+
+      = render(CardComponent.new(title: user.name, footer: nil, css_class: "flex-auto")) do
+        = form_with url: user_imports_path, data: { turbo: false } do |f|
+          = f.hidden_field :id, value: user.id
+          h5.mb-2
+            = t("accounts.roles")
+          .form-group
+            - AccountUser::ROLES.each do |role|
+              div
+                = f.check_box role, id: role.to_s.parameterize, class: "form-checkbox mr-1", checked: role == user_role
+                |  <label for="#{role.to_s.parameterize}" class="inline-block">
+                = role.to_s.humanize
+          = render(DepartmentSelectComponent.new(form: f, departments: Department.all, selected: department.id))
+          = render(OfficeSelectComponent.new(form: f, offices: Office.all, selected: office.id))
+          = f.submit "Import #{user.name}", class: "text-center block mt-4 w-full btn btn-primary"

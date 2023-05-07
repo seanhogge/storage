@@ -1,0 +1,47 @@
+- if user_signed_in?
+  div class="hidden lg:inline-block"
+    / = render "shared/notifications"
+
+  / <!-- Mobile menu -->
+  div class="lg:hidden mt-2 pt-4 pb-2 border-t border-gray-200"
+    div class="flex items-center px-2"
+      = link_to edit_user_path(current_user), class: "nav-link" do
+        .flex-auto = user_avatar current_user, class: "rounded-full h-10 w-10"
+      = link_to user_path(current_user), class: "nav-link" do
+        .flex-1 class="nav-link inline-flex"
+          = current_user.name
+    div class="mt-3 space-y-1"
+      - if current_user.admin?
+        div class="px-2 py-3 text-xs font-bold text-gray-800 uppercase bg-white border-t border-gray-200 dark:bg-slate-700 dark:text-white text-center" Admin
+        = link_to "User List", admin_users_path, class: "nav-link"
+        hr
+      = link_to "Sign Out", destroy_user_session_path, method: :delete, class: "nav-link"
+
+  / <!-- Main menu -->
+  div class="h-full hidden lg:inline-flex items-center leading-none text-gray-700 no-underline align-middle rounded hover:text-gray-800 hover:bg-white dark:hover:bg-slate-600"
+    div class="relative" data-controller="dropdown"
+      div data-action="click->dropdown#toggle click@window->dropdown#hide touch->dropdown#toggle touch@window->dropdown#hide" role="button" class="inline-block select-none" aria-label="Profile Menu"
+        span class="flex items-center text-gray-700 appearance-none"
+          = user_avatar current_user, class: "mx-2 rounded-full h-8 w-8"
+          = fa_icon "angle-down", class: "mr-2 dark:text-gray-400"
+      div data-dropdown-target="menu" class="hidden mt-2 lg:absolute lg:right-0 dropdown-menu"
+        div class="overflow-hidden bg-white border border-gray-200 rounded shadow-md dark:border-slate-600"
+          div class="border-b border-gray-200 no-underline block px-6 py-3 font-semibold text-base text-gray-800 bg-gray-100 whitespace-nowrap dark:bg-gray-700 dark:text-gray-200"
+            = current_user.name
+          = link_to "Profile", user_path(current_user), class: "user-nav-link"
+          - if current_user.admin?
+            div class="px-6 py-3 text-xs font-bold text-gray-800 uppercase border-t border-gray-300 bg-gray-100 dark:bg-slate-700 dark:text-white" Admin
+            = link_to "User List", admin_users_path, class: "user-nav-link", data: { turbo: false }, accesskey: "l"
+            = link_to "Sidekiq", admin_sidekiq_web_path, target: :_blank, class: "user-nav-link", data: { turbo: false }, accesskey: "s"
+            - if Rails.env.development? # && current_user.admin?
+              div class="px-6 py-3 text-xs font-bold text-gray-800 uppercase bg-gray-100 border-t border-gray-300 dark:bg-slate-700 dark:text-white" Development
+              = link_to "Mailer Previews", "/rails/mailers", class: "user-nav-link", target: :_mailer_previews, data: { turbo: false }, accesskey: "p"
+              = link_to "Letter Opener", letter_opener_web_path(script_name: nil), class: "user-nav-link", target: :_letter_opener, data: { turbo: false }, accesskey: "m"
+              = link_to "Last Error", "/__better_errors", class: "user-nav-link", target: :_berrer_errors, data: { turbo: false }
+              = link_to "Slashbase", "http://localhost:3000", class: "user-nav-link", target: :_slashbase, data: { turbo: false }
+            - if Rails.env.staging?
+              = link_to "Mailcatcher", "http://#{Rails.application.credentials.dig(:staging, :domain)}:1080", class: "user-nav-link", target: :_blank, data: { turbo: false }, accesskey: "m"
+          = button_to t(".sign_out"), destroy_user_session_path, method: :delete, class: "user-nav-link border-t border-gray-300"
+- else
+  = link_to t(".log_in"), new_user_session_path, class: 'nav-link'
+  = link_to t(".sign_up"), new_user_registration_path, class: 'btn btn-primary'

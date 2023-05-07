@@ -1,0 +1,13 @@
+.container.mx-auto.my-8.p-6
+  .lg:w-1/2.mx-auto.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500
+    .grid.grid-cols-2
+      div Name
+      div = @user.name
+
+      div Email
+      div = @user.email
+
+      div Time Zone
+      div = @user.time_zone
+    .col-span-2.mt-4
+      = link_to "Edit", edit_user_path(@user), class: "btn btn-primary btn-block"

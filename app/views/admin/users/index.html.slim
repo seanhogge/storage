@@ -1,0 +1,33 @@
+= content_for :title, "Users"
+= turbo_stream_from :users
+
+.container-full.p-0
+  .xl:grid.xl:grid-cols-3
+    .h3.text-center.mb-2.my-4.xl:text-left
+      | Users
+    .text-center.my-4
+      == pagy_nav(@pagy)
+    .text-right.my-4
+      = form_with url: admin_users_path, method: :get, class: "form-inline" do |form|
+        = form.text_field :search, placeholder: "Search First, Last, Email", class: "w-full xl:w-auto text-gray-800", autofocus: true
+
+  table.table.mb-4.shadow-lg
+    thead.border-b-2.dark:bg-gray-700.dark:border-gray-600
+      tr.bg-gray-200.dark:bg-gray-700
+        th = sortable @users, :last_name, "Name", data: { turbo_frame: :_top }
+        th.hidden.xl:table-cell Email
+        th.hidden.sm:table-cell TZ
+        th = sortable @users, :roles, "Roles", data: { turbo_frame: :_top }
+        th.hidden.md:table-cell Supervisor
+        th.hidden.2xl:table-cell = sortable @users, :sign_in_count, "Logins", data: { turbo_frame: :_top }
+        th.hidden.2xl:table-cell Recent IP
+        th.hidden.xl:table-cell = sortable @users, :confirmed_at, "Confirmed", data: { turbo_frame: :_top }
+        th.hidden.xl:table-cell = sortable @users, :locked_at, "Locked", data: { turbo_frame: :_top }
+        th
+    tbody
+      = render partial: "admin/users/index", collection: @users, as: :user, cached: true
+
+
+  - if @pagy.pages > 1
+    .text-center
+      == pagy_nav(@pagy)

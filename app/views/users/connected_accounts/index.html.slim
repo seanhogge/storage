@@ -1,0 +1,36 @@
+.flex.flex-wrap.my-4.lg:px-4
+  .lg:w-1/4.w-full.p-4
+    = render partial: "shared/account_navbar"
+  .lg:w-3/4.w-full.p-4
+    .lg:p-10.p-4.bg-white.rounded-lg.border.border-gray-300
+      h2.mb-2
+        = t(".title")
+      p
+        = t(".description")
+      - if Devise.omniauth_configs.any?
+        - Devise.omniauth_configs.each do |provider, config|
+          - connected_accounts = @connected_accounts.select{ |a| a.provider == provider.to_s }
+          hr
+          .p-4.-mx-4.hover:bg-gray-100
+            - if connected_accounts.any?
+              - connected_accounts.each do |connected_account|
+                .flex.border-top.align-middle
+
+                .flex-1
+                  = image_tag connected_account.image_url, class: "inline-block h-10 w-10 rounded shadow mr-2"
+                .inline-block.align-middle
+
+                div
+                  = connected_account.name
+                .font-semibold.text-sm.text-gray-700
+                  = social_icon connected_account.provider
+                  = provider_config(connected_account.provider)[:name]
+    = button_to connected_account, method: :delete, class: "btn btn-link text-gray-700" do
+      = render_svg "icons/close", styles: "fill-current h-3 w-3 mr-1"
+      = t(".remove")
+  - else
+    = button_to omniauth_authorize_path(:user, provider), class: "btn btn-#{provider}", data: { turbo: false, disable_with: t(".redirecting") } do
+      = social_icon provider, class: "mr-2"
+      = t("shared.oauth.#{provider}")
+- else
+  = t(".none")

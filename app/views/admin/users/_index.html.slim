@@ -1,0 +1,22 @@
+tr.border-t-2.bg-white.hover:bg-gray-100.dark:bg-gray-600.dark:border-gray-500.hover:dark:bg-gray-500
+  td.whitespace-nowrap
+    = user.name
+  td.hidden.xl:table-cell
+    = user.email
+  td.hidden.sm:table-cell.text-center
+    = user.tz
+  td.text-center
+    = user.role
+  td.hidden.md:table-cell.text-center.whitespace-nowrap
+    = user.supervisor&.name
+  td.hidden.2xl:table-cell.text-center.whitespace-nowrap
+    | #{user.current_sign_in_at&.to_fs(:short) || user.last_sign_in_at&.to_fs(:short)} (#{user.sign_in_count})
+  td.hidden.2xl:table-cell.text-right.whitespace-nowrap
+    = user.current_sign_in_ip || user.last_sign_in_ip
+  td.hidden.xl:table-cell.text-center.whitespace-nowrap
+    = user.confirmed_at ? user.confirmed_at&.to_fs(:short) : fa_icon(:times)
+  td.hidden.xl:table-cell.text-center
+    = user.locked_at ? user.locked_at&.to_fs(:short) : fa_icon(:times)
+  td.text-right.whitespace-nowrap
+    = link_to fa_icon("edit"), edit_admin_user_path(user), class: "btn btn-primary btn-small mx-2"
+    = button_to fa_icon("user-secret"), impersonation_path(id: user), method: :post, class: "btn btn-primary btn-small mx-2", form: { class: "inline" }, data: { turbo_frame: :_top }

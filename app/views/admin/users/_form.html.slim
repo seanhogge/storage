@@ -1,0 +1,25 @@
+= form_with(model: user, as: :user, url: admin_user_path(user), data: { turbo: false }) do |form|
+  = render "devise/shared/error_messages", resource: user
+  .flex.flex-wrap.items-start.justify-between
+    .w-full
+      .form-group
+        = form.label :name, "Full Name"
+        = form.text_field :name, autofocus: true, autocomplete: "name", placeholder: "Ada Lovelace", class: "form-control"
+      .form-group
+        = form.label :email
+        = form.email_field :email, autocomplete: "email", placeholder: "you@example.com", class: "form-control"
+      - if Devise.mappings[:user].confirmable? && user.pending_reconfirmation?
+        .alert.alert-warning.mb-4
+          = t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email)
+      .form-group
+        = form.label :time_zone
+        = form.time_zone_select :time_zone, nil, { default: browser_time_zone.name }, { class: "select" }
+      .form-group
+        = form.label :admin
+        = form.check_box :admin, class: "form-checkbox"
+      - if I18n.available_locales.length > 1
+        .form-group
+          = form.label :preferred_language
+          = form.select :preferred_language, language_options, {}, { class: "select" }
+  .mt-2.form-group
+    = form.button "Update", data: { disable_with: "Saving..." }, class: "btn btn-block btn-primary"

@@ -1,0 +1,13 @@
+div id="#{dom_id(<%= singular_name %>)}"
+  .grid.grid-cols-2
+<%- attributes.each do |attribute| -%>
+    .h4 <%= attribute.human_name %>
+<%- case attribute.type -%>
+<%- when :boolean -%>
+    .h4 = <%= singular_name %>.<%= attribute.name %> ? fa_icon("check") : fa_icon("times")
+<%- when :datetime, :timestamp -%>
+    .h4 = <%= singular_name %>.<%= attribute.name %>.to_fs(:long)
+<%- else -%>
+    .h4 = <%= singular_name %>.<%= attribute.name %>
+<%- end -%>
+<%- end -%>

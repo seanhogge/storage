@@ -1,0 +1,34 @@
+= content_for :title, "<%= plural_table_name.titleize %>"
+= turbo_stream_from :<%= plural_table_name %>
+
+.container-full.p-0
+  .xl:grid.xl:grid-cols-3
+    .h3.text-center.mb-2.my-4
+      | <%= plural_table_name.titleize %>
+      = link_to fa_icon(:plus), new_<%= singular_table_name %>_path, class: "btn btn-small dark:btn-tertiary ml-2 mb-2"
+    .text-center.my-4
+      == pagy_nav(@pagy)
+    .text-right.my-4
+      = form_with url: <%= plural_route_name %>_path, method: :get, class: "form-inline" do |form|
+        = form.text_field :search, placeholder: "Search <%= plural_table_name.titleize %>", class: "w-full xl:w-auto text-gray-800", autofocus: true
+
+  table.table.mb-4
+    thead.border-b-2.dark:bg-gray-700.dark:border-gray-600
+      tr
+        th#dangerous
+<%- attributes.each do |attribute| -%>
+<%- case attribute.type -%>
+<%- when :integer, :belongs_to -%>
+        th <%= attribute.human_name %>
+<%- when :datetime, :timestamp -%>
+        th.hidden.xl:table-cell = sortable @<%= plural_table_name %>, :<%= attribute.name.to_sym %>, "<%= attribute.human_name %>", data: { turbo_frame: :_top }
+<%- else -%>
+        th = sortable @<%= plural_table_name %>, :<%= attribute.name.to_sym %>, "<%= attribute.human_name %>", data: { turbo_frame: :_top }
+<%- end -%>
+<%- end -%>
+        th#controls
+    tbody
+      = render partial: "<%= plural_table_name %>/index", collection: @<%= plural_table_name %>, as: :<%= singular_table_name %>, cached: true
+
+  .text-center
+    == pagy_nav(@pagy)

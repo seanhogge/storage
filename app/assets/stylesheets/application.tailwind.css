@@ -1,0 +1,54 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+
+@import "components/base";
+@import "components/actiontext";
+@import "components/alert";
+@import "components/animation";
+@import "components/announcements";
+@import "components/avatars";
+@import "components/buttons";
+@import "components/code";
+@import "components/connected_accounts";
+@import "components/direct_uploads";
+@import "components/docs";
+@import "components/forms";
+@import "components/icons";
+@import "components/iframe";
+@import "components/nav";
+@import "components/pagination";
+@import "components/tabs";
+@import "components/trix";
+@import "components/typography";
+@import "components/util";
+
+@import "tailwindcss/utilities";
+
+.ts-control {
+  @apply text-base;
+  border-radius: 0.375rem !important;
+}
+
+.ts-control input {
+  font-size: 1rem !important;
+}
+
+.ts-dropdown {
+}
+
+.ts-dropdown-content {
+  @apply text-base;
+}
+
+.ts-dropdown-content .option:hover {
+  @apply dark:bg-gray-600 dark:text-white;
+}
+
+.ts-dropdown-content .option.active {
+  @apply dark:bg-gray-600 dark:text-white;
+}
+
+.item {
+  @apply text-base;
+}
+@import 'actiontext.css';
