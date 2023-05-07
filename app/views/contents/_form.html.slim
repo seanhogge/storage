@@ -1,0 +1,22 @@
+= form_with(model: content) do |f|
+  = render "form_errors", resource: f.object
+
+  .form-group
+    = f.label :bin_id
+    = f.text_field :bin_id, class: "form-control"
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: "form-control"
+
+  .form-group
+    = f.label :condition
+    = f.number_field :condition, class: "form-control"
+
+  div
+    = f.submit "Submit", class: "btn btn-primary"
+
+    - if f.object.new_record?
+      = link_to "Cancel", contents_path, class: "btn btn-white dark:btn-tertiary"
+    - else
+      = link_to "Cancel", content_path(@content), class: "btn btn-white dark:btn-tertiary"

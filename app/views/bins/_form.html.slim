@@ -1,0 +1,11 @@
+= form_with(model: [storage_unit, bin]) do |f|
+  = render "form_errors", resource: f.object
+
+  .form-group
+    = f.label :id, "Bin Number"
+    = f.number_field :id, class: "form-control", inputmode: :numeric
+
+  div
+    = f.submit "Submit", class: "btn btn-primary"
+
+    = link_to "Cancel", storage_unit_bins_path, class: "btn btn-white dark:btn-tertiary"

@@ -1,0 +1,22 @@
+= form_with(model: access_code) do |f|
+  = render "form_errors", resource: f.object
+
+  .form-group
+    = f.label :storage_unit_id
+    = f.text_field :storage_unit_id, class: "form-control"
+
+  .form-group
+    = f.label :name
+    = f.text_field :name, class: "form-control"
+
+  .form-group
+    = f.label :code
+    = f.text_field :code, class: "form-control"
+
+  div
+    = f.submit "Submit", class: "btn btn-primary"
+
+    - if f.object.new_record?
+      = link_to "Cancel", access_codes_path, class: "btn btn-white dark:btn-tertiary"
+    - else
+      = link_to "Cancel", access_code_path(@access_code), class: "btn btn-white dark:btn-tertiary"

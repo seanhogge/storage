@@ -1,0 +1,30 @@
+= content_for :title, "Storage Units"
+= turbo_stream_from :storage_units
+
+.container-full.p-0
+  .xl:grid.xl:grid-cols-3
+    .h3.text-center.mb-2.my-4
+      | Storage Units
+      = link_to fa_icon(:plus), new_storage_unit_path, class: "btn btn-small dark:btn-tertiary ml-2 mb-2"
+    .text-center.my-4
+      == pagy_nav(@pagy)
+    .text-right.my-4
+      = form_with url: storage_units_path, method: :get, class: "form-inline" do |form|
+        = form.text_field :search, placeholder: "Search Storage Units", class: "w-full xl:w-auto text-gray-800", autofocus: true
+
+  table.table.mb-4.shadow-lg
+    thead.border-b-2.bg-gray-200.dark:bg-gray-700.dark:border-gray-600
+      tr
+        th.text-left = sortable @storage_units, :name, "Name", data: { turbo_frame: :_top }
+        th.text-left.hidden.lg:table-cell = sortable @storage_units, :address, "Address", data: { turbo_frame: :_top }
+        th.text-left.hidden.lg:table-cell = sortable @storage_units, :city, "City", data: { turbo_frame: :_top }
+        th.text-left.hidden.lg:table-cell = sortable @storage_units, :state, "State", data: { turbo_frame: :_top }
+        th.text-left.hidden.lg:table-cell = sortable @storage_units, :zip, "Zip", data: { turbo_frame: :_top }
+        th.text-left.hidden.lg:table-cell = sortable @storage_units, :phone, "Phone", data: { turbo_frame: :_top }
+        th.text-left.hidden.lg:table-cell = sortable @storage_units, :unit, "Unit", data: { turbo_frame: :_top }
+        th#controls
+    tbody
+      = render partial: "storage_units/index", collection: @storage_units, as: :storage_unit, cached: true
+
+  .text-center
+    == pagy_nav(@pagy)

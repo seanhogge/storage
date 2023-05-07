@@ -1,0 +1,24 @@
+= content_for :title, "Content #{@content.id}"
+= turbo_stream_from @content
+
+.container.px-4.mx-auto.my-8
+  .flex.items-center.justify-between.mb-4
+    h1.h3
+      = link_to "Contents", contents_path, class: "text-black dark:text-white"
+      span.text-gray-400.font-light.px-2.dark:text-white
+        = fa_icon 'angle-right'
+      | #{@content.name}
+    = link_to "Edit", edit_content_path(@content), class: "btn btn-white dark:btn-tertiary"
+
+  .p-8.bg-white.rounded.shadow.dark:bg-gray-600
+    div id="#{dom_id @content}" = render @content
+
+  = turbo_frame_tag dom_id(@content, :controls), class: "hidden"
+    #controls
+      .flex.flex-row-reverse
+        - if policy(@content).destroy?
+          div = button_to fa_icon(:trash), content_path(@content), method: :delete, class: "btn btn-danger btn-small", data: { turbo_confirm: "Delete this content?", turbo_frame: :_top }
+        - if current_user.admin? && current_user != @content.user
+          div = button_to fa_icon("user-secret"), impersonation_path(@content.user), class: "btn btn-white btn-small dark:btn-tertiary", data: { turbo_frame: :_top }
+        - if policy(@content).update?
+          div = link_to fa_icon(:edit), edit_content_path(@content), class: "btn btn-white btn-small dark:btn-tertiary"

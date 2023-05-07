@@ -7,7 +7,6 @@ gem "audited"
 gem "bootsnap", require: false
 gem "chronic"
 gem "devise", "~> 4.8"
-gem "figaro"
 gem "font-awesome-rails", "~> 4.7"
 gem "image_processing", "~> 1.12"
 gem "importmap-rails"

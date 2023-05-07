@@ -1,0 +1,24 @@
+= content_for :title, "Access Code #{@access_code.id}"
+= turbo_stream_from @access_code
+
+.container.px-4.mx-auto.my-8
+  .flex.items-center.justify-between.mb-4
+    h1.h3
+      = link_to "Access Codes", storage_unit_access_codes_path, class: "text-black dark:text-white"
+      span.text-gray-400.font-light.px-2.dark:text-white
+        = fa_icon 'angle-right'
+      | #{@access_code.name}
+    = link_to "Edit", edit_storage_unit_access_code_path(@access_code), class: "btn btn-white dark:btn-tertiary"
+
+  .p-8.bg-white.rounded.shadow.dark:bg-gray-600
+    div id="#{dom_id @access_code}" = render @access_code
+
+  = turbo_frame_tag dom_id(@access_code, :controls), class: "hidden"
+    #controls
+      .flex.flex-row-reverse
+        - if policy(@access_code).destroy?
+          div = button_to fa_icon(:trash), storage_unit_access_code_path(@access_code), method: :delete, class: "btn btn-danger btn-small", data: { turbo_confirm: "Delete this access_code?", turbo_frame: :_top }
+        - if current_user.admin? && current_user != @access_code.storage_unit.user
+          div = button_to fa_icon("user-secret"), impersonation_path(@access_code.user), class: "btn btn-white btn-small dark:btn-tertiary", data: { turbo_frame: :_top }
+        - if policy(@access_code).update?
+          div = link_to fa_icon(:edit), edit_storage_unit_access_code_path(@access_code), class: "btn btn-white btn-small dark:btn-tertiary"

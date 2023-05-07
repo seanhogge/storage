@@ -1,0 +1,39 @@
+div id="#{dom_id(bin)}"
+  .xl:grid.xl:grid-cols-2
+    .h4.mb-2 Contents
+    .mb-4
+      - bin.contents.each do |content|
+        .flex.mb-2 class=content.condition
+          .flex-grow = content.name
+          .flex-shrink = button_to fa_icon(:trash), storage_unit_bin_content_path(content, storage_unit_id: content.bin.storage_unit.id, bin_id: content.bin.id), method: :delete
+
+      = render "modal", button_text: "Add Contents", button_classes: "btn-primary btn-small btn-block" do
+        = form_with model: [@storage_unit, @bin, Content.new(bin: @bin)] do |f|
+
+          .form-group
+            = f.label :name
+            = f.text_field :name, class: "form-control"
+
+          .form-group
+            = f.label :condition
+            = f.select :condition,
+              options_for_select(Content.conditions.map{|k,v| [k.titleize, k]})
+
+          = f.submit "Add Content", class: "btn btn-block btn-primary"
+
+    .h4.mb-2 Images
+    div
+      - bin.images.each do |image|
+        .relative
+          = link_to url_for(image), target: :_blank do
+            = image_tag image
+          = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0"
+
+      = render "modal", button_text: "Add Image", button_classes: "btn-primary btn-small btn-block" do
+        = form_with model: [@storage_unit, @bin] do |f|
+
+          .form-group
+            = f.label :images
+            = f.file_field :images, class: "form-control"
+
+          = f.submit "Add Image", class: "btn btn-block btn-primary"

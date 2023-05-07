@@ -1,0 +1,12 @@
+= content_for :title, "New Bin"
+
+.container.px-4.mx-auto.my-8
+  .flex.items-center.justify-between.mb-4
+    h1.h3
+      = link_to "Bins", storage_unit_bins_path, class: "text-black dark:text-white"
+      span.text-gray-400.font-light.px-2
+        = fa_icon 'angle-right'
+      = "New Bin"
+
+  .p-8.bg-white.rounded.shadow.dark:bg-gray-600
+    = render "form", storage_unit: @storage_unit, bin: @bin

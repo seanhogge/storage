@@ -1,0 +1,17 @@
+tr.border-t-2.border-gray-100.hover:bg-gray-50.dark:bg-gray-600.dark:border-gray-500.dark:hover:bg-gray-500
+  td.whitespace-nowrap class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.name
+  td.whitespace-nowrap.hidden.lg:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.address
+  td.whitespace-nowrap.hidden.lg:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.city
+  td.whitespace-nowrap.hidden.lg:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.state
+  td.whitespace-nowrap.hidden.lg:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.zip
+  td.whitespace-nowrap.hidden.lg:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.phone
+  td.whitespace-nowrap.hidden.lg:table-cell class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_path(storage_unit)
+    = storage_unit.unit
+  td#controls
+    = turbo_frame_tag dom_id(storage_unit, :controls), src: storage_unit_path(storage_unit)

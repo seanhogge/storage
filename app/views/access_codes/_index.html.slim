@@ -1,0 +1,10 @@
+tr.border-t-2.dark:bg-gray-600.dark:border-gray-500.dark:hover:bg-gray-500
+  td#dangerous
+  td class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=access_code_path(access_code)
+    = access_code.storage_unit
+  td.whitespace-nowrap class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=access_code_path(access_code)
+    = access_code.name
+  td.whitespace-nowrap class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=access_code_path(access_code)
+    = access_code.code
+  td#controls
+    = turbo_frame_tag dom_id(access_code, :controls), src: access_code_path(access_code)

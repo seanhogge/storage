@@ -1,0 +1,13 @@
+= content_for :title, "Edit Content"
+
+.container.mx-auto.px-4.my-8
+  .flex.items-center.justify-between.mb-4
+    h1.h3
+      = link_to "Contents", contents_path, class: "text-black dark:text-white"
+      span.text-gray-400.font-light.px-2.dark:text-white
+        = fa_icon 'angle-right'
+      | #{@content.name}
+    = button_to "Delete", @content, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Delete this content?" } }
+
+  .p-8.bg-white.rounded.shadow.dark:bg-gray-600
+    = render "form", content: @content

@@ -1,0 +1,27 @@
+= content_for :title, "Access Codes"
+= turbo_stream_from :access_codes
+
+.container-full.p-0
+  .xl:grid.xl:grid-cols-3
+    .h3.text-center.mb-2.my-4
+      | Access Codes
+      = link_to fa_icon(:plus), new_access_code_path, class: "btn btn-small dark:btn-tertiary ml-2 mb-2"
+    .text-center.my-4
+      == pagy_nav(@pagy)
+    .text-right.my-4
+      = form_with url: access_codes_path, method: :get, class: "form-inline" do |form|
+        = form.text_field :search, placeholder: "Search Access Codes", class: "w-full xl:w-auto text-gray-800", autofocus: true
+
+  table.table.mb-4
+    thead.border-b-2.dark:bg-gray-700.dark:border-gray-600
+      tr
+        th#dangerous
+        th Storage unit
+        th = sortable @access_codes, :name, "Name", data: { turbo_frame: :_top }
+        th = sortable @access_codes, :code, "Code", data: { turbo_frame: :_top }
+        th#controls
+    tbody
+      = render partial: "access_codes/index", collection: @access_codes, as: :access_code, cached: true
+
+  .text-center
+    == pagy_nav(@pagy)

@@ -1,0 +1,43 @@
+div id="#{dom_id(storage_unit)}"
+  .grid-cols-1.xl:grid.xl:grid-cols-2
+    .h4 Name
+    .mb-4 = storage_unit.name
+    .h4 Address
+    .mb-4 = storage_unit.address
+    .h4 City
+    .mb-4 = storage_unit.city
+    .h4 State
+    .mb-4 = storage_unit.state
+    .h4 Zip
+    .mb-4 = storage_unit.zip
+    .h4 Phone
+    .mb-4 = phone_to storage_unit.phone
+    .h4 Website
+    .mb-4.truncate = link_to storage_unit.website, storage_unit.website, target: :_blank
+    .h4 Unit
+    .mb-4 = storage_unit.unit
+    .h4 Access Codes
+    .mb-4
+      - @storage_unit.access_codes.each do |access_code|
+        .flex.mb-4
+          .mr-3 #{access_code.name}:
+          .flex-grow = access_code.code
+          .flex-shrink
+            = button_to fa_icon(:trash),
+              storage_unit_access_code_path(id: access_code, storage_unit_id: storage_unit.id),
+              method: :delete,
+              class: "btn btn-small btn-danger",
+              data: { turbo_confirm: "Delete this access code?" }
+
+      = render "modal", button_text: "Add Access Code", button_classes: "btn-primary btn-small btn-block" do
+        = form_with model: [@storage_unit, AccessCode.new(storage_unit: @storage_unit)] do |f|
+
+          .form-group
+            = f.label :name
+            = f.text_field :name, class: "form-control"
+
+          .form-group
+            = f.label :code
+            = f.text_field :code, class: "form-control"
+
+          = f.submit "Add Access Code", class: "btn btn-block btn-primary"

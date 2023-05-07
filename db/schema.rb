@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_29_014307) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_07_213245) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "access_codes", force: :cascade do |t|
+    t.bigint "storage_unit_id", null: false
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["storage_unit_id"], name: "index_access_codes_on_storage_unit_id"
+  end
 
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
@@ -52,6 +61,22 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_014307) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "bins", force: :cascade do |t|
+    t.bigint "storage_unit_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["storage_unit_id"], name: "index_bins_on_storage_unit_id"
+  end
+
+  create_table "contents", force: :cascade do |t|
+    t.bigint "bin_id", null: false
+    t.string "name"
+    t.integer "condition"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bin_id"], name: "index_contents_on_bin_id"
+  end
+
   create_table "notifications", force: :cascade do |t|
     t.string "recipient_type", null: false
     t.bigint "recipient_id", null: false
@@ -62,6 +87,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_014307) do
     t.datetime "updated_at", null: false
     t.index ["read_at"], name: "index_notifications_on_read_at"
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient"
+  end
+
+  create_table "storage_units", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "zip"
+    t.string "phone"
+    t.string "website"
+    t.string "unit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_storage_units_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -97,7 +137,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_29_014307) do
     t.index ["supervisor_id"], name: "index_users_on_supervisor_id"
   end
 
+  add_foreign_key "access_codes", "storage_units"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "bins", "storage_units"
+  add_foreign_key "contents", "bins"
+  add_foreign_key "storage_units", "users"
   add_foreign_key "users", "users", column: "supervisor_id"
 end

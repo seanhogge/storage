@@ -1,0 +1,32 @@
+= content_for :title, "Bin #{@bin.id}"
+= turbo_stream_from @bin
+
+.container.px-4.mx-auto.my-8
+  .flex.items-center.justify-between.mb-4
+    h1.h3
+      = link_to "Bins", storage_unit_bins_path(@storage_unit), class: "text-black dark:text-white"
+      span.text-gray-400.font-light.px-2.dark:text-white
+        = fa_icon 'angle-right'
+      | Bin ##{@bin.id}
+    = link_to "Edit", edit_storage_unit_bin_path(id: @bin.id, storage_unit_id: @storage_unit.id), class: "btn btn-white dark:btn-tertiary"
+
+  .p-8.bg-white.rounded.shadow.dark:bg-gray-600
+    div id="#{dom_id @bin}" = render @bin
+
+  = turbo_frame_tag dom_id(@bin, :controls), class: "hidden"
+    #controls
+      .flex.flex-row-reverse
+
+        - if policy(@bin).destroy?
+          div = button_to fa_icon(:trash),
+            storage_unit_bin_path(id: @bin.id,
+            storage_unit_id: @storage_unit.id),
+            method: :delete,
+            class: "btn btn-danger btn-small",
+            data: { turbo_confirm: "Delete this bin?", turbo_frame: :_top }
+
+        - if current_user.admin? && current_user != @bin.storage_unit.user
+          div = button_to fa_icon("user-secret"),
+            impersonation_path(@bin.user),
+            class: "btn btn-white btn-small dark:btn-tertiary",
+            data: { turbo_frame: :_top }

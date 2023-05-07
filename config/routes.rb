@@ -1,8 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
+  resources :storage_units do
+    resources :access_codes
+    resources :bins do
+      resources :contents
+    end
+  end
+  resources :attachments, only: [:destroy]
+
   root "application#index"
   resources :users, only: [:show, :edit, :update]
   get "notifications/menu", to: "notifications#menu", as: "notifications_menu"

@@ -1,0 +1,6 @@
+tr.border-t-2.border-gray-100.hover:bg-gray-50.dark:bg-gray-600.dark:border-gray-500.dark:hover:bg-gray-500
+  td#dangerous
+  td class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_bin_path(id: bin.id, storage_unit_id: @storage_unit.id)
+    = bin.id
+  td#controls
+    = turbo_frame_tag dom_id(bin, :controls), src: storage_unit_bin_path(id: bin.id, storage_unit_id: @storage_unit.id)
