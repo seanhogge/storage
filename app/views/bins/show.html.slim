@@ -18,15 +18,7 @@
       .flex.flex-row-reverse
 
         - if policy(@bin).destroy?
-          div = button_to fa_icon(:trash),
-            storage_unit_bin_path(id: @bin.id,
-            storage_unit_id: @storage_unit.id),
-            method: :delete,
-            class: "btn btn-danger btn-small",
-            data: { turbo_confirm: "Delete this bin?", turbo_frame: :_top }
+          div = button_to fa_icon(:trash), storage_unit_bin_path(id: @bin.id, storage_unit_id: @storage_unit.id), method: :delete, class: "btn btn-danger btn-small", data: { turbo_confirm: "Delete this bin?", turbo_frame: :_top }
 
         - if current_user.admin? && current_user != @bin.storage_unit.user
-          div = button_to fa_icon("user-secret"),
-            impersonation_path(@bin.user),
-            class: "btn btn-white btn-small dark:btn-tertiary",
-            data: { turbo_frame: :_top }
+          div = button_to fa_icon("user-secret"), impersonation_path(@bin.user), class: "btn btn-white btn-small dark:btn-tertiary", data: { turbo_frame: :_top }

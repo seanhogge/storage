@@ -23,4 +23,4 @@
         - if policy(@storage_unit).update?
           div = link_to fa_icon(:edit), edit_storage_unit_path(@storage_unit), class: "btn btn-white btn-small dark:btn-tertiary"
         - if policy(@storage_unit).show?
-          div = link_to fa_icon("box-archive"), storage_unit_bins_path(@storage_unit), class: "btn btn-white btn-small dark:btn-tertiary"
+          div = link_to fa_icon("box-archive"), storage_unit_bins_path(@storage_unit), class: "btn btn-white btn-small dark:btn-tertiary", data: { turbo: false }
