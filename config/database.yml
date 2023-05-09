@@ -20,3 +20,4 @@ production:
   database: <%= Rails.application.credentials.dig(:production, :db_name) %>
   username: <%= Rails.application.credentials.dig(:production, :db_user) %>
   password: <%= Rails.application.credentials.dig(:production, :db_pass) %>
+  host: <%= Rails.application.credentials.dig(:production, :db_host) %>
