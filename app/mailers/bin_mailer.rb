@@ -4,6 +4,6 @@ class BinMailer < ApplicationMailer
   def new_bin
     @greeting = "Hi"
 
-    mail to: @user.email
+    mail from: "sean@seanhogge.com", to: @user.email, message_stream: "outbound"
   end
 end
