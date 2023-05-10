@@ -24,10 +24,10 @@ div id="#{dom_id(bin)}"
     .h4.mb-2 Images
     div
       - bin.images.each do |image|
-        .relative
+        .relative id=dom_id(image)
           = link_to url_for(image), target: :_blank do
             = image_tag image
-          = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0"
+          = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
 
       = render "modal", button_text: "Add Image", button_classes: "btn-primary btn-small btn-block" do
         = form_with model: [@storage_unit, @bin] do |f|
