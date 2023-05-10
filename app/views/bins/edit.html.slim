@@ -3,11 +3,11 @@
 .container.mx-auto.px-4.my-8
   .flex.items-center.justify-between.mb-4
     h1.h3
-      = link_to "Bins", bins_path, class: "text-black dark:text-white"
+      = link_to "Bins", storage_unit_bins_path(@storage_unit), class: "text-black dark:text-white"
       span.text-gray-400.font-light.px-2.dark:text-white
         = fa_icon 'angle-right'
       | Bin ##{@bin.id}
-    = button_to "Delete", @bin, method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Delete this bin?" } }
+    = button_to "Delete", [@storage_unit, @bin], method: :delete, class: "btn btn-danger", form: { data: { turbo_confirm: "Delete this bin?" } }
 
   .p-8.bg-white.rounded.shadow.dark:bg-gray-600
     = render "form", bin: @bin
