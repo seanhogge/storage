@@ -83,10 +83,6 @@ Rails.application.configure do
   #   :enable_starttls_auto => true
   # }
 
-  #SMTP settings for staging with mailcatcher
-  config.action_mailer.smtp_settings = { :address => '127.0.0.1', :port => 1025 }
-  config.action_mailer.raise_delivery_errors = false
-
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
