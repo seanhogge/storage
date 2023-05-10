@@ -66,7 +66,10 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.delivery_method = :postmark
+  config.action_mailer.postmark_settings = {
+    api_token: Rails.application.credentials.postmark_api_token
+  }
   config.action_mailer.default_url_options = { host: Rails.application.credentials.dig(:production, :domain)  }
   config.action_mailer.raise_delivery_errors = true
 

@@ -16,6 +16,7 @@ gem "name_of_person", "~> 1.1"
 gem "noticed"
 gem "pagy", "~> 5.10"
 gem "pg", "~> 1.1"
+gem "postmark-rails"
 gem "pretender"
 gem "puma", "~> 5.0"
 gem "pundit", "~> 2.2"
@@ -50,5 +51,6 @@ end
 group :test do
   gem "capybara"
   gem "selenium-webdriver"
+  gem "standardrb"
   gem "webdrivers"
 end
