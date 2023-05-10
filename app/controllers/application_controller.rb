@@ -14,6 +14,7 @@ class ApplicationController < ActionController::Base
   rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   def index
+    @storage_units = policy_scope(StorageUnit)
   end
 
   private

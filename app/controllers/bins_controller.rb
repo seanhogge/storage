@@ -22,7 +22,7 @@ class BinsController < ApplicationController
 
   # GET /bins/new
   def new
-    @bin = Bin.new
+    @bin = @storage_unit.bins.new
 
     authorize @bin
   end
@@ -52,6 +52,8 @@ class BinsController < ApplicationController
 
   # PATCH/PUT /bins/1
   def update
+    @bin.images.attach(params[:bin][:images]) if params[:bin][:images].present?
+
     respond_to do |format|
       if @bin.update(permitted_attributes(@bin))
         format.html { redirect_to storage_unit_bin_path(id: @bin.id, storage_unit_id: @bin.storage_unit.id), notice: "Bin was successfully updated." }

@@ -12,4 +12,12 @@ class StorageUnit < ApplicationRecord
   #   broadcast_replace_later_to :storage_units, partial: "storage_units/index", target: dom_id(self, :index)
   # }
   # after_destroy_commit -> { broadcast_remove_to :storage_units, target: dom_id(self, :index) }
+
+  def condition_counts
+    {
+      Good: contents.good.count,
+      Questionable: contents.questionable.count,
+      Poor: contents.poor.count,
+    }
+  end
 end

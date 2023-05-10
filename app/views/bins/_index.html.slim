@@ -1,6 +1,20 @@
-tr.border-t-2.border-gray-100.hover:bg-gray-50.dark:bg-gray-600.dark:border-gray-500.dark:hover:bg-gray-500
-  td#dangerous
-  td class="cursor-pointer" data-controller="link" data-action="click->link#goto" data-link-url-value=storage_unit_bin_path(id: bin.id, storage_unit_id: @storage_unit.id)
-    = bin.id
-  td#controls
-    = turbo_frame_tag dom_id(bin, :controls), src: storage_unit_bin_path(id: bin.id, storage_unit_id: @storage_unit.id)
+.w-full.sm:w-1/2.lg:w-1/4.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500
+  .h3.text-center.mb-4 Bin #{bin.id}
+  .mb-4
+    - bin.contents.limit(3).each do |content|
+      .flex.mb-2 class=content.condition
+        .flex-grow = content.name
+    - if bin.contents.count > 3
+      .flex-grow.neutral = pluralize bin.contents.count - 3, "other content"
+  - bin.images.any?
+    = image_tag bin.images.first
+  .grid.grid-cols-2
+    = link_to "Edit Bin",
+      storage_unit_bin_path(bin, storage_unit_id: bin.storage_unit),
+      class: "btn btn-block btn-primary mb-4",
+      data: { turbo_confirm: "Delete this bin?" }
+    = button_to "Delete Bin",
+      storage_unit_bin_path(bin, storage_unit_id: bin.storage_unit),
+      method: :delete,
+      class: "btn btn-block btn-danger mb-4",
+      data: { turbo_confirm: "Delete this bin?" }

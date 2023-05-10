@@ -5,6 +5,7 @@ ruby "3.2.2"
 
 gem "audited"
 gem "bootsnap", require: false
+gem "chartkick"
 gem "chronic"
 gem "devise", "~> 4.8"
 gem "font-awesome-rails", "~> 4.7"

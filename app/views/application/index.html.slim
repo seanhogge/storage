@@ -1,0 +1,8 @@
+.container.mx-auto.my-8.p-6.flex
+  - @storage_units.each do |storage_unit|
+    .w-full.sm:w-1/2.lg:w-1/4.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500
+      .h5.text-center = storage_unit.name
+      p = pluralize storage_unit.bins.count, "bin"
+      p = pluralize storage_unit.contents.count, "content"
+      .mb-4 = pie_chart(storage_unit.condition_counts, colors: ["#090", "#aa0", "#900"], legend: false)
+      = link_to "View Bins", storage_unit_bins_path(storage_unit), class: "btn btn-block btn-primary"

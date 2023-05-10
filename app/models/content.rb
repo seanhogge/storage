@@ -10,4 +10,15 @@ class Content < ApplicationRecord
   #   broadcast_replace_later_to :contents, partial: "contents/index", target: dom_id(self, :index)
   # }
   # after_destroy_commit -> { broadcast_remove_to :contents, target: dom_id(self, :index) }
+
+  def condition_classes
+    case condition
+    when "poor"
+      %w[text-red-600]
+    when "questionable"
+      %w[text-gold-600]
+    when "good"
+      %w[text-green-600]
+    end
+  end
 end

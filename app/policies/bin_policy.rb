@@ -35,7 +35,6 @@ class BinPolicy < ApplicationPolicy
     [
       :id,
       :storage_unit_id,
-      :images,
     ]
   end
 
@@ -44,13 +43,11 @@ class BinPolicy < ApplicationPolicy
       [
         :id,
         :storage_unit_id,
-        :images,
       ]
     else
       [
         :id,
         :storage_unit_id,
-        :images,
       ]
     end
   end

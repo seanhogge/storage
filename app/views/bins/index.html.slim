@@ -1,7 +1,7 @@
 = content_for :title, "Bins"
 = turbo_stream_from :bins
 
-.container-full.p-0
+.container.p-0.mx-auto
   .xl:grid.xl:grid-cols-3
     .h3.text-center.mb-2.my-4
       | Bins
@@ -12,14 +12,7 @@
       = form_with url: storage_unit_bins_path, method: :get, class: "form-inline" do |form|
         = form.text_field :search, placeholder: "Search Bins", class: "w-full xl:w-auto text-gray-800", autofocus: true
 
-  table.table.mb-4.shadow-lg
-    thead.border-b-2.bg-gray-200.dark:bg-gray-700.dark:border-gray-600
-      tr
-        th#dangerous
-        th Bin Number
-        th#controls
-    tbody
-      = render partial: "bins/index", collection: @bins, as: :bin, cached: true
+  = render partial: "bins/index", collection: @bins, as: :bin, cached: true
 
   .text-center
     == pagy_nav(@pagy)
