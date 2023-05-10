@@ -60,7 +60,7 @@ class BinPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.where(user: user)
+        scope.joins(:storage_unit).where(storage_unit: {user: user})
       end
     end
   end
