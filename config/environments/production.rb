@@ -70,7 +70,7 @@ Rails.application.configure do
   config.action_mailer.postmark_settings = {
     api_token: Rails.application.credentials.postmark_api_token
   }
-  config.action_mailer.default_url_options = { host: Rails.application.credentials.dig(:production, :domain)  }
+  config.action_mailer.default_url_options = { host: "https://#{Rails.application.credentials.dig(:production, :domain)}"  }
   config.action_mailer.raise_delivery_errors = true
 
   # SMTP settings for gmail
