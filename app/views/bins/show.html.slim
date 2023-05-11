@@ -2,13 +2,14 @@
 = turbo_stream_from @bin
 
 .container.p-0.mx-auto.my-8
-  .flex.items-center.justify-between.mb-4
-    h1.h3
+  .flex.items-center.mb-4
+    h1.h3.flex-grow
       = link_to "Bins", storage_unit_bins_path(@storage_unit), class: "text-black dark:text-white"
       span.text-gray-400.font-light.px-2.dark:text-white
         = fa_icon 'angle-right'
       | Bin ##{@bin.id}
-    = link_to "Edit", edit_storage_unit_bin_path(id: @bin.id, storage_unit_id: @storage_unit.id), class: "btn btn-white dark:btn-tertiary"
+    .flex-shrink = link_to "Edit", edit_storage_unit_bin_path(id: @bin.id, storage_unit_id: @storage_unit.id), class: "btn btn-white dark:btn-tertiary"
+    .flex-shrink = link_to "Add", new_storage_unit_bin_path(id: @bin.id, storage_unit_id: @storage_unit.id), class: "btn btn-white dark:btn-tertiary"
 
   div id="#{dom_id @bin}" = render @bin
 

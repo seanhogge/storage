@@ -19,15 +19,15 @@ class ContentPolicy < ApplicationPolicy
   end
 
   def edit?
-    user == record.bin.storage_unit.user || user.admin?
+    user
   end
 
   def update?
-    user == record.bin.storage_unit.user || user.admin?
+    user
   end
 
   def destroy?
-    user == record.bin.storage_unit.user || user.admin?
+    user
   end
 
   # https://github.com/varvet/pundit#strong-parameters

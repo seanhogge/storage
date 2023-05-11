@@ -12,7 +12,8 @@
       = form_with url: storage_unit_bins_path, method: :get, class: "form-inline" do |form|
         = form.text_field :search, placeholder: "Search Bins", class: "w-full xl:w-auto text-gray-800", autofocus: true
 
-  = render partial: "bins/index", collection: @bins, as: :bin, cached: true
+  .grid.grid-cols-1.sm:grid-cols-2.md:grid-cols-3.xl:grid-cols-4.gap-4
+    = render partial: "bins/index", collection: @bins, as: :bin, cached: true
 
   .text-center
     == pagy_nav(@pagy)

@@ -19,15 +19,15 @@ class BinPolicy < ApplicationPolicy
   end
 
   def edit?
-    user == record.storage_unit.user || user.admin?
+    user
   end
 
   def update?
-    user == record.storage_unit.user || user.admin?
+    user
   end
 
   def destroy?
-    user == record.storage_unit.user || user.admin?
+    user.admin?
   end
 
   # https://github.com/varvet/pundit#strong-parameters
@@ -57,7 +57,7 @@ class BinPolicy < ApplicationPolicy
       if user.admin?
         scope.all
       else
-        scope.joins(:storage_unit).where(storage_unit: {user: user})
+        scope.all
       end
     end
   end

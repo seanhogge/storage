@@ -13,7 +13,7 @@ class BinsController < ApplicationController
       @bins = policy_scope(Bin).all.order(:id)
     end
 
-    @pagy, @bins = pagy(@bins.sort_by_params(params[:sort], sort_direction), items: 50)
+    @pagy, @bins = pagy(@bins.sort_by_params(params[:sort], sort_direction), items: 12)
   end
 
   # GET /bins/1

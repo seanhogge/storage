@@ -1,4 +1,4 @@
-.w-full.sm:w-1/2.lg:w-1/4.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500
+.w-full.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500
   .h3.text-center.mb-4 Bin #{bin.id}
   .mb-4
     - bin.contents.limit(3).each do |content|
@@ -16,12 +16,12 @@
                 button class="btn" data-action="click->modal#close"
                   = fa_icon :times
               .p-8
-                p.dark:text-white = image_tag image, class: "mx-auto"
+                p.dark:text-white = image_tag image, class: "mx-auto", loading: :lazy
       swiper-container data-controller="carousel-refresh" navigation="true" pagination="true" effect="slide" loop="true"
         - bin.images.each do |image|
           swiper-slide id=dom_id(image)
             div class="h-64 grid place-items-center bg-stone-50"
-              = image_tag image, data: { action: "click->modal#open" }
+              = image_tag image.variant(resize_to_limit: [300, 300]), data: { action: "click->modal#open" }
   .grid.grid-cols-2
     = link_to "Edit Bin",
       storage_unit_bin_path(bin, storage_unit_id: bin.storage_unit),

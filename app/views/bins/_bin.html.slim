@@ -10,7 +10,7 @@
         .form-group
           = f.label :condition
           = f.select :condition,
-            options_for_select(Content.conditions.map{|k,v| [k.titleize, k]})
+            options_for_select(Content.conditions.map{|k,v| [k.titleize, k]}, @bin.contents&.last&.condition || 0)
 
         = f.submit "Add Content", class: "btn btn-block btn-primary"
     = render "modal", button_text: "Add Image", button_classes: "btn-primary btn-small btn-block" do
