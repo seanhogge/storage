@@ -4,6 +4,7 @@ class AttachmentsController < ApplicationController
 
   def destroy
     @attachment.purge_later if @record.user == current_user
+    redirect_back fallback_location: root_path
   end
 
   private
