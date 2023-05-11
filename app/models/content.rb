@@ -1,5 +1,5 @@
 class Content < ApplicationRecord
-  belongs_to :bin
+  belongs_to :bin, touch: true
 
   enum condition: { poor: 0, questionable: 1, good: 2 }
 
