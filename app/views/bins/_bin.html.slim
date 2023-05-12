@@ -30,15 +30,23 @@
         .flex-shrink = button_to fa_icon(:trash), storage_unit_bin_content_path(content, storage_unit_id: content.bin.storage_unit.id, bin_id: content.bin.id), method: :delete
 
   .h4.mb-2 Images
-  swiper-container data-controller="carousel-refresh" navigation="true" pagination="true" effect="slide" loop="true"
-    - bin.images.each do |image|
-      swiper-slide id=dom_id(image)
-        div class="h-64 grid place-items-center bg-stone-50"
-          = image_tag image
-          = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
-    / - bin.images.each do |image|
-      .relative id=dom_id(image)
-        = link_to url_for(image), target: :_blank do
-          .mb-4 = image_tag image
-        = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
 
+  - bin.images.any?
+    div data-controller="modal"
+      .hidden.animated.fadeIn.fixed.inset-0.overflow-y-auto.flex.items-center.justify-center data-modal-target="container" data-action="click->modal#closeBackground keyup@window->modal#closeWithKeyboard turbo:submit-end->modal#close" style="z-index: 9999;"
+        .max-h-screen.w-full.relative
+          .m-1.bg-white.rounded.shadow.dark:bg-gray-800
+            swiper-container data-controller="carousel-refresh" navigation="true" pagination="true" effect="slide" loop="true"
+              - bin.images.each do |image|
+                swiper-slide id=dom_id(image, :full)
+                  div class="flex justify-end items-center flex-wrap mt-2 float-right"
+                    button class="btn" data-action="click->modal#close"
+                      = fa_icon :times
+                  .p-8
+                    p.dark:text-white = image_tag image, class: "mx-auto", loading: :lazy
+      swiper-container data-controller="carousel-refresh" navigation="true" pagination="true" effect="slide" loop="true"
+        - bin.images.each do |image|
+          swiper-slide id=dom_id(image)
+            div class="h-64 grid place-items-center bg-stone-50"
+              = image_tag image.variant(resize_to_limit: [300, 300]), data: { action: "click->modal#open" }
+              = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
