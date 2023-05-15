@@ -1,5 +1,6 @@
 .w-full.sm:w-1/2.lg:w-1/4.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500 id="#{dom_id(bin)}"
-  .h3.text-center.mb-4 = bin.mark.disposition.titleize
+  - if bin.mark
+    .h3.text-center.mb-4 = bin.mark.disposition.titleize
   .grid.grid-cols-2
     = render "modal", button_text: "Add Contents", button_classes: "btn-primary btn-small btn-block" do
       = form_with model: [@storage_unit, @bin, Content.new(bin: @bin)] do |f|
