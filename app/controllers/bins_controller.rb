@@ -53,6 +53,10 @@ class BinsController < ApplicationController
   # PATCH/PUT /bins/1
   def update
     @bin.images.attach(params[:bin][:images]) if params[:bin][:images].present?
+    if params[:bin][:mark]
+      @bin.mark.destroy
+      @bin.mark = Mark.new(disposition: params[:bin][:mark])
+    end
 
     respond_to do |format|
       if @bin.update(permitted_attributes(@bin))

@@ -1,4 +1,5 @@
 .w-full.sm:w-1/2.lg:w-1/4.my-8.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500 id="#{dom_id(bin)}"
+  .h3.text-center.mb-4 = bin.mark.disposition.titleize
   .grid.grid-cols-2
     = render "modal", button_text: "Add Contents", button_classes: "btn-primary btn-small btn-block" do
       = form_with model: [@storage_unit, @bin, Content.new(bin: @bin)] do |f|
@@ -26,9 +27,21 @@
   .mb-4
     - bin.contents.each do |content|
       .flex.mb-2 class=content.condition
-        .flex-grow = content.name
+        .flex-grow
+          ' #{content.name}
+          - if content.mark
+            | - #{content.mark.disposition.titleize}
+        .flex-shrink
+          = render "modal", button_text: fa_icon("ranking-star"), button_classes: "btn-small" do
+            = form_with model: [@storage_unit, @bin, content], method: :patch do |f|
+              = f.select :mark,
+                options_for_select(Mark.form_select)
+              = f.submit "Add Disposition", class: "btn btn-primary btn-block"
         - if policy(content).destroy?
-          .flex-shrink = button_to fa_icon(:trash), storage_unit_bin_content_path(content, storage_unit_id: content.bin.storage_unit.id, bin_id: content.bin.id), method: :delete
+          .flex-shrink = button_to fa_icon(:trash),
+            storage_unit_bin_content_path( content, storage_unit_id: content.bin.storage_unit.id, bin_id: content.bin.id),
+            method: :delete,
+            class: "btn btn-small"
 
   .h4.mb-2 Images
 
@@ -52,3 +65,9 @@
               = image_tag image.variant(resize_to_limit: [300, 300]), data: { action: "click->modal#open" }
               - if Pundit.policy(current_user, :attachment).destroy?
                 = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
+  div.mt-4
+    = render "modal", button_text: "Disposition", button_classes: "btn-primary btn-block w-full" do
+      = form_with model: [bin.storage_unit, bin], method: :patch do |f|
+        = f.select :mark,
+          options_for_select(Mark.form_select)
+        = f.submit "Add Disposition", class: "btn btn-primary btn-block"

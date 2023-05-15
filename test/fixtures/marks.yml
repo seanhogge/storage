@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  disposition: 1
+  markable: one
+  markable_type: Markable
+
+two:
+  disposition: 1
+  markable: two
+  markable_type: Markable

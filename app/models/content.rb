@@ -1,6 +1,8 @@
 class Content < ApplicationRecord
   belongs_to :bin, touch: true
 
+  has_one :mark, as: :markable
+
   enum condition: { poor: 0, questionable: 1, good: 2 }
 
   # Broadcast changes in realtime with Hotwire

@@ -40,7 +40,7 @@ class ContentPolicy < ApplicationPolicy
   end
 
   def permitted_attributes
-    if user == record.user || user.admin?
+    if user == record.bin.storage_unit.user || user.admin?
       [
         :bin_id,
         :name,

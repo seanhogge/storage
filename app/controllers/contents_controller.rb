@@ -49,9 +49,14 @@ class ContentsController < ApplicationController
 
   # PATCH/PUT /contents/1
   def update
+    if params[:content][:mark]
+      @content.mark.destroy
+      @content.mark = Mark.new(disposition: params[:content][:mark])
+    end
+
     respond_to do |format|
       if @content.update(permitted_attributes(@content))
-        format.html { redirect_to :contents, notice: "Content was successfully updated." }
+        format.html { redirect_to storage_unit_bin_path(@content.bin), notice: "Content was successfully updated." }
         format.json { render :show, status: :ok, location: @content }
       else
         format.html { render :edit, status: :unprocessable_entity }

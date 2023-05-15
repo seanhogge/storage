@@ -1,5 +1,8 @@
 .w-full.p-6.border.rounded.bg-white.dark:bg-gray-600.dark:border-gray-500
-  .h3.text-center.mb-4 Bin #{bin.id}
+  .h3.text-center.mb-4
+    | Bin #{bin.id}
+    - if bin.mark
+      | - #{bin.mark.disposition.titleize}
   .mb-4
     - bin.contents.limit(3).each do |content|
       .flex.mb-2 class=content.condition
@@ -7,7 +10,13 @@
     - if bin.contents.count > 3
       .flex-grow.neutral = pluralize bin.contents.count - 3, "other content"
   - bin.images.any?
-    div data-controller="modal"
+    swiper-container data-controller="carousel-refresh" navigation="true" pagination="true" effect="slide" loop="true"
+      - bin.images.each do |image|
+        swiper-slide id=dom_id(image)
+          div class="h-64 grid place-items-center bg-stone-50"
+            = link_to url_for(image), target: :_blank do
+              = image_tag image.variant(resize_to_limit: [300, 300])
+    / div data-controller="modal"
       .hidden.animated.fadeIn.fixed.inset-0.overflow-y-auto.flex.items-center.justify-center data-modal-target="container" data-action="click->modal#closeBackground keyup@window->modal#closeWithKeyboard turbo:submit-end->modal#close" style="z-index: 9999;"
         .max-h-screen.w-full.relative
           .m-1.bg-white.rounded.shadow.dark:bg-gray-800
@@ -34,3 +43,9 @@
       method: :delete,
       class: "btn btn-block btn-danger mb-4",
       data: { turbo_confirm: "Delete this bin?" }
+  div
+    = render "modal", button_text: "Disposition", button_classes: "btn-primary btn-block w-full" do
+      = form_with model: [bin.storage_unit, bin], method: :patch do |f|
+        = f.select :mark,
+          options_for_select(Mark.form_select)
+        = f.submit "Add Disposition", class: "btn btn-primary btn-block"
