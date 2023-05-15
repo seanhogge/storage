@@ -3,7 +3,7 @@ class AttachmentPolicy < ApplicationPolicy
   # See ApplicationPolicy for defaults
 
   def destroy?
-    user == record.storage_unit.user || user.admin?
+    user.admin?
   end
 
   def permitted_attributes

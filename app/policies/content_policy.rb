@@ -27,7 +27,7 @@ class ContentPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user
+    user.admin?
   end
 
   # https://github.com/varvet/pundit#strong-parameters

@@ -27,7 +27,8 @@
     - bin.contents.each do |content|
       .flex.mb-2 class=content.condition
         .flex-grow = content.name
-        .flex-shrink = button_to fa_icon(:trash), storage_unit_bin_content_path(content, storage_unit_id: content.bin.storage_unit.id, bin_id: content.bin.id), method: :delete
+        - if policy(content).destroy?
+          .flex-shrink = button_to fa_icon(:trash), storage_unit_bin_content_path(content, storage_unit_id: content.bin.storage_unit.id, bin_id: content.bin.id), method: :delete
 
   .h4.mb-2 Images
 
@@ -49,4 +50,5 @@
           swiper-slide id=dom_id(image)
             div class="h-64 grid place-items-center bg-stone-50"
               = image_tag image.variant(resize_to_limit: [300, 300]), data: { action: "click->modal#open" }
-              = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
+              - if Pundit.policy(current_user, :attachment).destroy?
+                = button_to fa_icon(:trash), attachment_path(image), method: :delete, class: "btn btn-small btn-danger absolute top-0 right-0", data: { turbo_confirm: "Delete this image?" }
